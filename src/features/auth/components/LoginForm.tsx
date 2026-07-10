@@ -56,46 +56,75 @@ export function LoginForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-                <label htmlFor="email">
-                    Correo electrónico
-                </label>
+        <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="rounded-xl bg-white p-6 shadow-sm"
+        >
+            <h2 className="mb-5 text-xl font-semibold text-slate-900">
+                Iniciar sesión
+            </h2>
 
-                <input
-                    id="email"
-                    type="email"
-                    {...register("email")}
-                />
+            <div className="space-y-5">
+                <div>
+                    <label
+                        htmlFor="email"
+                        className="mb-1 block text-sm font-medium text-slate-700"
+                    >
+                        Correo electrónico
+                    </label>
 
-                {errors.email && (
-                    <p>{errors.email.message}</p>
-                )}
-            </div>
+                    <input
+                        id="email"
+                        type="email"
+                        placeholder="admin@miniflota.com"
+                        {...register("email")}
+                        className="w-full rounded-md border border-slate-300 px-3 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                    />
 
-            <div>
-                <label htmlFor="password">
-                    Contraseña
-                </label>
+                    {errors.email && (
+                        <p className="mt-1 text-sm text-red-600">
+                            {errors.email.message}
+                        </p>
+                    )}
+                </div>
 
-                <input
-                    id="password"
-                    type="password"
-                    {...register("password")}
-                />
+                <div>
+                    <label
+                        htmlFor="password"
+                        className="mb-1 block text-sm font-medium text-slate-700"
+                    >
+                        Contraseña
+                    </label>
 
-                {errors.password && (
-                    <p>{errors.password.message}</p>
-                )}
+                    <input
+                        id="password"
+                        type="password"
+                        placeholder="Ingresa tu contraseña"
+                        {...register("password")}
+                        className="w-full rounded-md border border-slate-300 px-3 py-2 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                    />
+
+                    {errors.password && (
+                        <p className="mt-1 text-sm text-red-600">
+                            {errors.password.message}
+                        </p>
+                    )}
+                </div>
             </div>
 
             {serverError && (
-                <p role="alert">{serverError}</p>
+                <p
+                    role="alert"
+                    className="mt-5 rounded-md bg-red-50 p-3 text-sm text-red-700"
+                >
+                    {serverError}
+                </p>
             )}
 
             <button
                 type="submit"
                 disabled={isSubmitting}
+                className="mt-6 w-full rounded-md bg-blue-600 px-5 py-2.5 font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
                 {isSubmitting
                     ? "Ingresando..."
