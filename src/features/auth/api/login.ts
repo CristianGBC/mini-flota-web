@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../../../api/axiosInstance";
 
 import type { LoginFormData } from "../utils/loginValidator";
 
@@ -15,8 +15,8 @@ export async function login(
     formData.append("username", credentials.email);
     formData.append("password", credentials.password);
 
-    const response = await axios.post<LoginResponse>(
-        "http://127.0.0.1:8000/auth/login",
+    const response = await axiosInstance.post<LoginResponse>(
+        "/auth/login",
         formData,
         {
         headers: {

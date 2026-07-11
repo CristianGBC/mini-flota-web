@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: "http://127.0.0.1:8000",
+    baseURL: import.meta.env.VITE_API_URL,
 });
 
 axiosInstance.interceptors.request.use((config) => {
@@ -13,3 +13,18 @@ axiosInstance.interceptors.request.use((config) => {
 
     return config;
 });
+
+axiosInstance.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        if (error.response?.status === 401) {
+            localStorage.removeItem("access_token");
+
+            window.location.href = "/login";
+        }
+
+        return Promise.reject(error);
+    },
+);
