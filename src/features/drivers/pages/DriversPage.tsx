@@ -1,24 +1,14 @@
+import { DriverForm } from "../components/DriverForm";
+import { DriverList } from "../components/DriverList";
+import { useDrivers } from "../hooks/useDrivers";
 import { Link } from "@tanstack/react-router";
-import { useDrivers } from "../../drivers/hooks/useDrivers";
-import { VehicleForm } from "../components/VehicleForm";
-import { VehicleTable } from "../components/VehicleTable";
-import { useVehicles } from "../hooks/useVehicles";
 
-export function VehiclesPage() {
-    const {
-        data: vehicles,
-        isLoading,
-        isError,
-    } = useVehicles();
-
+export function DriversPage() {
     const {
         data: drivers,
-        isLoading: areDriversLoading,
-        isError: areDriversError,
+        isLoading,
+        isError,
     } = useDrivers();
-
-    const isLoadingData = isLoading || areDriversLoading;
-    const hasError = isError || areDriversError;
 
     return (
         <main className="min-h-screen bg-slate-100 px-6 py-10">
@@ -26,69 +16,66 @@ export function VehiclesPage() {
                 <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 className="text-3xl font-bold text-slate-900">
-                            Gestión de vehículos
+                            Gestión de conductores
                         </h1>
 
                         <p className="mt-2 text-slate-600">
-                            Registra, consulta y asigna conductores a los vehículos de la flota.
+                            Registra y consulta los conductores de la flota.
                         </p>
                     </div>
 
                     <nav className="flex gap-3">
                         <Link
                             to="/vehicles"
-                            className="rounded-md bg-blue-600 px-4 py-2 font-medium text-white"
+                            className="rounded-md bg-white px-4 py-2 font-medium text-slate-700 shadow-sm hover:bg-slate-50"
                         >
                             Vehículos
                         </Link>
 
                         <Link
                             to="/drivers"
-                            className="rounded-md bg-white px-4 py-2 font-medium text-slate-700 shadow-sm hover:bg-slate-50"
+                            className="rounded-md bg-blue-600 px-4 py-2 font-medium text-white"
                         >
                             Conductores
                         </Link>
                     </nav>
                 </header>
 
-                <VehicleForm />
+                <DriverForm />
 
                 <section className="rounded-xl bg-white p-6 shadow-sm">
                     <h2 className="mb-5 text-xl font-semibold text-slate-900">
-                        Vehículos registrados
+                        Conductores registrados
                     </h2>
 
-                    {isLoadingData && (
+                    {isLoading && (
                         <p className="text-slate-600">
-                            Cargando vehículos y conductores...
+                            Cargando conductores...
                         </p>
                     )}
 
-                    {hasError && (
+                    {isError && (
                         <p
                             role="alert"
                             className="rounded-md bg-red-50 p-3 text-red-700"
                         >
-                            No se pudieron cargar los vehículos o los conductores.
+                            No se pudieron cargar los conductores.
                         </p>
                     )}
 
-                    {!isLoadingData
-                        && !hasError
-                        && (!vehicles || vehicles.length === 0) && (
+                    {!isLoading
+                        && !isError
+                        && (!drivers || drivers.length === 0) && (
                             <p className="text-slate-600">
-                                No hay vehículos registrados.
+                                No hay conductores registrados.
                             </p>
                         )}
 
-                    {!isLoadingData
-                        && !hasError
-                        && vehicles
-                        && vehicles.length > 0 && (
-                            <VehicleTable
-                                vehicles={vehicles}
-                                drivers={drivers ?? []}
-                            />
+                    {!isLoading
+                        && !isError
+                        && drivers
+                        && drivers.length > 0 && (
+                            <DriverList drivers={drivers} />
                         )}
                 </section>
             </div>

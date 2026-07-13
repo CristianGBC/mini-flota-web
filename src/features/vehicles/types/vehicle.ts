@@ -1,3 +1,5 @@
+import type { Driver } from "../../drivers/types/driver";
+
 export type Vehicle = {
     id: string;
     plate: string;
@@ -6,6 +8,7 @@ export type Vehicle = {
     year: number;
     capacity_kg: number;
     status: "active" | "inactive";
+    driver: Driver | null;
 };
 
 export type VehicleCreate = {

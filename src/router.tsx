@@ -8,6 +8,7 @@ import {
 
 import { LoginPage } from "./features/auth/pages/LoginPage";
 import { VehiclesPage } from "./features/vehicles/pages/VehiclesPage";
+import { DriversPage } from "./features/drivers/pages/DriversPage";
 
 const rootRoute = createRootRoute({
     component: () => <Outlet />,
@@ -44,10 +45,26 @@ const vehiclesRoute = createRoute({
     component: VehiclesPage,
 });
 
+const driversRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/drivers",
+    beforeLoad: () => {
+        const token = localStorage.getItem("access_token");
+
+        if (!token) {
+            throw redirect({
+                to: "/login",
+            });
+        }
+    },
+    component: DriversPage,
+});
+
 const routeTree = rootRoute.addChildren([
     indexRoute,
     loginRoute,
     vehiclesRoute,
+    driversRoute,
 ]);
 
 export const router = createRouter({

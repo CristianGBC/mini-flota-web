@@ -1,11 +1,15 @@
+import type { Driver } from "../../drivers/types/driver";
 import type { Vehicle } from "../types/vehicle";
+import { AssignDriverControl } from "./AssignDriverControl";
 
 type VehicleTableProps = {
     vehicles: Vehicle[];
+    drivers: Driver[];
 };
 
 export function VehicleTable({
     vehicles,
+    drivers,
 }: VehicleTableProps) {
     return (
         <div className="overflow-x-auto">
@@ -34,6 +38,14 @@ export function VehicleTable({
 
                         <th className="border-b px-4 py-3 text-left">
                             Estado
+                        </th>
+
+                        <th className="border-b px-4 py-3 text-left">
+                            Conductor
+                        </th>
+
+                        <th className="border-b px-4 py-3 text-left">
+                            Asignación
                         </th>
                     </tr>
                 </thead>
@@ -76,6 +88,34 @@ export function VehicleTable({
                                         ? "Activo"
                                         : "Inactivo"}
                                 </span>
+                            </td>
+
+                            <td className="border-b px-4 py-3">
+                                {vehicle.driver ? (
+                                    <div>
+                                        <p className="font-medium text-slate-900">
+                                            {vehicle.driver.name}
+                                        </p>
+
+                                        <p className="text-sm text-slate-500">
+                                            {vehicle.driver.license}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <span className="text-slate-500">
+                                        Sin conductor
+                                    </span>
+                                )}
+                            </td>
+
+                            <td className="border-b px-4 py-3">
+                                <AssignDriverControl
+                                    vehicleId={vehicle.id}
+                                    currentDriverId={
+                                        vehicle.driver?.id ?? null
+                                    }
+                                    drivers={drivers}
+                                />
                             </td>
                         </tr>
                     ))}
