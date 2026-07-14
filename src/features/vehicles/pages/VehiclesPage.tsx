@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+
 import { useDrivers } from "../../drivers/hooks/useDrivers";
 import { VehicleForm } from "../components/VehicleForm";
 import { VehicleTable } from "../components/VehicleTable";
@@ -19,6 +20,14 @@ export function VehiclesPage() {
 
     const isLoadingData = isLoading || areDriversLoading;
     const hasError = isError || areDriversError;
+
+    const assignedDriverIds = new Set(
+        (vehicles ?? [])
+            .map((vehicle) => vehicle.driver?.id)
+            .filter(
+                (driverId): driverId is string => Boolean(driverId),
+            ),
+    );
 
     return (
         <main className="min-h-screen bg-slate-100 px-6 py-10">
@@ -88,6 +97,7 @@ export function VehiclesPage() {
                             <VehicleTable
                                 vehicles={vehicles}
                                 drivers={drivers ?? []}
+                                assignedDriverIds={assignedDriverIds}
                             />
                         )}
                 </section>
