@@ -23,3 +23,17 @@ export async function createVehicle(
 
     return response.data;
 }
+
+export async function assignDriver(
+    vehicleId: string,
+    driverId: string,
+): Promise<Vehicle> {
+    const response = await axiosInstance.put<Vehicle>(
+        `/vehicles/${vehicleId}/driver`,
+        {
+            driver_id: driverId,
+        },
+    );
+
+    return response.data;
+}
